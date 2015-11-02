@@ -8,8 +8,8 @@ class Doc extends Base {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addChild(new DocType(), 'doctype');
-		$this->addChild(new Html(), 'html');
+		$this->appendChild(new DocType(), 'doctype');
+		$this->appendChild(new Html(), 'html');
 	}
 
 	public function getDocType() {

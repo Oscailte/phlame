@@ -8,24 +8,24 @@ class Head extends Base {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addChild(new Title, 'title');
+		$this->appendChild(new Title, 'title');
 	}
 
 	public function addMeta($attributes = array()) {
-		$this->addChild(new Meta($attributes));
+		$this->appendChild(new Meta($attributes));
 	}
 
 	public function addStylesheet($url) {
 		$this->assets->addCss($url);
 		//$stylesheet = new Stylesheet();
 		//$stylesheet->setUrl($url);
-		//$this->addChild($stylesheet);
+		//$this->appendChild($stylesheet);
 	}
 
 	public function addJavascript($url) {
 		$javascript = new Javascript();
 		$javascript->setUrl($url);
-		$this->addChild($javascript);
+		$this->appendChild($javascript);
 	}
 
 	public function getTitle() {

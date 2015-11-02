@@ -6,8 +6,8 @@ class Html extends Base {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addChild(new Head(), 'head');
-		$this->addChild(new Body(), 'body');
+		$this->appendChild(new Head(), 'head');
+		$this->appendChild(new Body(), 'body');
 	}
 
 	public function getHead() {

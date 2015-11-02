@@ -13,7 +13,7 @@ class Body extends Base
 	//public function addJavascript($url) {
 	//	$javascript = new Javascript();
 	//	$javascript->setUrl($url);
-	//	$this->addChild($javascript);
+	//	$this->appendChild($javascript);
 	//}
 
 }

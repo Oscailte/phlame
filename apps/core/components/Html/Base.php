@@ -6,7 +6,7 @@ use \Phalcon\Mvc\User\Component;
 use \Phalcon\Text;
 use \Phalcon\Registry;
 
-abstract class Base extends Component {
+class Base extends Component {
 
 	protected $_tagName = null;
 	protected $_useTag = true;
@@ -15,8 +15,11 @@ abstract class Base extends Component {
 	protected $_eol = true;
 	protected $_children;
 
-	public function __construct($attributes = array(), $properties = array()) {
+	public function __construct($attributes = array(), $properties = array(), $tagName = null) {
 		$this->_children = new Registry();
+		if ($tagName) {
+			$this->_tagName = $tagName;
+		}
 		if ($this->_useTag && !$this->_tagName) {
 			$this->_tagName = strtolower((new \ReflectionClass($this))->getShortName());
 		}
@@ -55,7 +58,7 @@ abstract class Base extends Component {
 		if ($this->_eol) return "\n";
 	}
 
-	public function addChild($child, $name = null) {
+	public function appendChild($child, $name = null) {
 		//echo 'name:'.$name.'<br/>';
 		if (!$name) $name = strval(count($this->getChildren()));
 		//echo 'using name:'.$name.'<br/>';

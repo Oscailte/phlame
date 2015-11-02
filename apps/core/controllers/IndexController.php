@@ -1,87 +1,77 @@
 <?php
 
 namespace Phlame\Core\Controllers;
-//use \Phlame\Core\Components\Html\Html;
+
+use \Phlame\Core\Components\Bootstrap\Navbar;
+use \Phlame\Core\Components\Html\Tag;
+use \Phlame\Core\Components\Html\NavbarTag;
 
 class IndexController extends ControllerBase
 {
-
-    public function indexAction()
-    {
-		echo '<hr />';
-		//echo 'Index';
-		//$this->tag->setDocType(\Phalcon\Tag::XHTML11);
-		//var_dump ($this->html);
-		//$html = new Html();
-		//echo $this->htmlDoc->test;
-		//echo '<br />';
-		//$this->htmlDoc->test = 'hi<br />';
-		//echo $this->htmlDoc->test;
-		
-		//$test = new \Phlame\Core\Components\Test();
-		//$doc = $test->getHtml();
-		
-		$doc = $this->htmlDoc;
-		//$doc->html->head->setTitleSeparator = '*';
-		$doc->getDocType()->setDocType(\Phalcon\Tag::XHTML20);
-		$doc->getHtml()->setAttribute('lang', 'en');
-		$doc->getHtml()->getHead()->getTitle()->setTitle('Test Page');
-		$doc->getHtml()->getHead()->addMeta(array(
-			'charset' => 'utf-8'
-		));
-		$doc->getHtml()->getHead()->addMeta(array(
-			'http-equiv' => 'Content-Type',
-			'content' => 'text/html; charset=utf-8'
-		));
-		$doc->getHtml()->getHead()->addMeta(array(
-			'http-equiv' => 'X-UA-Compatible',
-			'content' => 'IE=edge'
-		));
-		$doc->getHtml()->getHead()->addMeta(array(
-			'name' => 'keywords',
-			'content' => 'php, phalcon'
-		));
-		$doc->getHtml()->getHead()->addStylesheet('http://www.google.com/styles.css');
-		$doc->getHtml()->getHead()->addStylesheet('styles/local.css');
-		$doc->getHtml()->getHead()->addJavascript('http://www.google.com/script.js');
-		$doc->getHtml()->getHead()->addJavascript('scripts/local.js');
-
-		echo '<pre><code>';
-		echo htmlentities($doc);
-		echo '</code></pre>';
-		
-		//echo $doc->tagName.'<br/>';
-		//echo $doc->html->tagName.'<br/>';
-		//echo $test->getHtml();
-		
-		//$this->dumpInfo();
-    }
     
-    public function aAction() {
+    public function testAction() {
 		$this->dumpInfo();
 	}
 
-	public function bAction() {
-		//var_dump($this->htmlDoc->getHtml());
+	public function indexAction() {
 		
-		$this->htmlDoc->setTitle('Test Page');
+		$this->htmlDoc->setTitle('Phlame Framework');
+		$this->htmlDoc->getHtml()->setAttribute('lang', 'en');
 		$this->htmlDoc->addMeta(array(
-			'http-equiv' => 'Content-Type',
-			'content' => 'text/html; charset=utf-8'
+			'charset' => 'utf-8'
 		));
-		//$this->htmlDoc->getHtml()->getHead()->addTitle();
-		//$this->htmlDoc->getHtml()->getHead()->getTitle()->setTitle('test app');
 		$this->htmlDoc->addMeta(array(
-			'name' => 'tags',
-			'content' => 'phalcon, phlame, php'
+			'http-equiv' => 'X-UA-Compatible',
+			'content' => 'IE=edge'
 		));
-		$this->htmlDoc->addJavascript('js/local.js');
-		$this->htmlDoc->addStylesheet('css/local.css');
-
-		//var_dump ($this->htmlDoc->getHtml()->getHead()->getChildren());
-		//echo '<pre>';
-		//print_r ($this->htmlDoc->getContent());
-		//echo '</pre>';
+		$this->htmlDoc->addMeta(array(
+			'name' => 'viewport',
+			'content' => 'width=device-width, initial-scale=1'
+		));
+		
+		$this->htmlDoc->addJavascript('files/jquery/js/jquery.min.js');
+		$this->htmlDoc->addStylesheet('files/bootstrap/css/bootstrap.min.css');
+		$this->htmlDoc->addJavascript('files/bootstrap/js/bootstrap.min.js');
+		
+		$navbar = new NavbarTag();
+		
+		$brand = $navbar->getChild(array('container', 'header', 'brand'));
+		$brand->setChildren(array('Phlame Framework'));
+		$brand->setAttribute('href', '#?id=2');
+		
+		$link_a = $navbar->getChild(array('container', 'collapse', 'nav', 'link_li_1', 'link_a_1'));
+		$link_a->setChildren(array('First Link'))->setAttribute('href', 'http://www.google.com');
+		
+		
+		$this->htmlDoc->getBody()->appendChild($navbar);
+		
+		$tag = new Tag(array(
+			'tagName' => 'div',
+			'attributes' => array(
+				'class' => 'my-class',
+				'id' => 'my-id'
+			),
+			'children' => array(
+				array(
+					'tagName' => 'p',
+					'children' => array('text1')
+				),
+				'secondp' => array(
+					'tagName' => 'p',
+					'children' => array('text2')
+				),
+				array(
+					'tagName' => 'p',
+					'children' => array('text3')
+				)
+			)
+		));
+		$tag->getChild('secondp')->setAttribute('class', 'bold');
+		$this->htmlDoc->getBody()->appendChild($tag);
+		
+		for ($i=1; $i<=50; $i++) {
+			$this->htmlDoc->getBody()->appendChild('<p>Testing 1 2 3</p>');
+		}
 		
 		$this->response->setContent($this->htmlDoc);
 	}
