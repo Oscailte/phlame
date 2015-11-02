@@ -1,0 +1,15 @@
+Phlame\Core\Components\Html
+
+Html classes
+
+TODO
+- use a registry for the contents
+- use the assets manager for css and js
+- create a comment class
+- allow adding items to head in any order
+- check if there is a tag in di and load one if there isn't
+
+- turn off the templating engine
+	- done in bootstrap file
+- escaping the output
+	- done in body

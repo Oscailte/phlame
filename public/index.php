@@ -22,6 +22,7 @@ try {
      * Handle the request
      */
     $application = new Application($di);
+    $application->useImplicitView(false);
 
     /**
      * Include modules
@@ -38,4 +39,3 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage();
 }
-
