@@ -1,0 +1,19 @@
+{
+  "name": "polymer",
+  "homepage": "https://github.com/Oscailte/phlame",
+  "authors": [
+    "Andrew Clarke <andrew@glydetechnology.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
