@@ -7,7 +7,8 @@ class IndexController extends ControllerBase
 
     public function indexAction()
     {
-		$this->dumpInfo();
+		echo '<br/>index - polymer test<br/>';
+		//$this->dumpInfo();
     }
     
     public function aAction()

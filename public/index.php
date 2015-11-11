@@ -22,7 +22,7 @@ try {
      * Handle the request
      */
     $application = new Application($di);
-    $application->useImplicitView(false);
+    //$application->useImplicitView(false);
 
     /**
      * Include modules
