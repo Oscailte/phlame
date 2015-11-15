@@ -12,7 +12,8 @@
 		<!-- 2. Use an HTML Import to bring in some elements. -->
 		<link rel="import" href="/phlame/files/polymer/bower_components/paper-button/paper-button.html">
 		<link rel="import" href="/phlame/files/polymer/bower_components/paper-input/paper-input.html">
-		<link rel="import" href="/phlame/files/polymer/bower_components/google-map/google-map.html">
+		<link rel="import" href="/phlame/files/polymer/bower_components/iron-ajax/iron-ajax.html">
+		<!--<link rel="import" href="/phlame/files/polymer/bower_components/google-map/google-map.html">-->
         
     </head>
     <body>
@@ -20,6 +21,51 @@
         <?php echo $this->getContent(); ?>
         
         <hr/>
+        
+        <link rel="import" href="/phlame/files/polymer/bower_components/polymer/polymer.html">
+ 
+<dom-module id="element-name">
+
+  <template is="dom-bind">
+    <style>
+      /* CSS rules for your element */
+    </style>
+  
+    <!-- local DOM for your element -->
+
+    <div>{{greeting}}</div> <!-- data bindings in local DOM -->
+    <!--
+    <iron-ajax url="http://www.reddit.com//r/aww/about.json" auto last-response="{{resp}}"></iron-ajax>
+    -->
+    <iron-ajax url="/phlame/frontend/rest/index" auto last-response="{{resp}}"></iron-ajax>
+
+    <p>{{resp.data.public_description}}</p>
+  </template>
+
+  <script>
+	  HTMLImports.whenReady(function () {
+    // element registration
+    Polymer({
+      is: "element-name",
+
+      // add properties and methods on the element's prototype
+
+      properties: {
+        // declare properties for the element's public API
+        greeting: {
+          type: String,
+          value: "Hello!"
+        }
+      }
+    });
+    });
+  </script>
+
+</dom-module>
+        
+        <element-name></element-name>
+        
+        <hr />
         
     <!-- 3. Declare the element. Configure using its attributes. -->
     <paper-input label="Your name here"></paper-input>
@@ -34,7 +80,7 @@
 			width: 500px;
 		}
 		</style>
-		<google-map zoom="15" latitude="54.009" longitude="-6.40490"></google-map>
+		<!--<google-map zoom="15" latitude="54.009" longitude="-6.40490"></google-map>-->
 
 
 

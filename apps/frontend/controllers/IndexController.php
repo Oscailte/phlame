@@ -2,11 +2,29 @@
 
 namespace Phlame\Frontend\Controllers;
 
+use Phalcon\Events\Manager as EventsManager;
+use Phlame\Core\Components\Store\Store;
+use Phlame\Core\Components\Store\StoreListener;
+
 class IndexController extends ControllerBase
 {
 
     public function indexAction()
     {
+
+		// Create the store instance
+		$store   = new Store();
+
+		// Bind the eventsManager to the instance
+		$store->setEventsManager($this->eventsManager);
+
+		// Attach the listener to the EventsManager
+		$this->eventsManager->attach('store', new StoreListener());
+
+		// Execute methods in the component
+		$store->someTask();
+
+		
 		echo '<br/>index - polymer test<br/>';
 		//$this->dumpInfo();
     }
@@ -51,4 +69,3 @@ class IndexController extends ControllerBase
     }
 
 }
-

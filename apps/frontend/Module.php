@@ -24,6 +24,7 @@ class Module implements ModuleDefinitionInterface
         $loader->registerNamespaces(array(
             'Phlame\Frontend\Controllers' => __DIR__ . '/controllers/',
             'Phlame\Frontend\Models' => __DIR__ . '/models/',
+            'Phlame\Core\Components' => __DIR__ . '/../core/components/',
         ));
 
         $loader->register();
