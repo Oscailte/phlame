@@ -105,3 +105,4 @@ $di->setShared('dispatcher', function() use ($di) {
     $dispatcher->setDefaultNamespace('Phlame\Core\Controllers');
     return $dispatcher;
 });
+

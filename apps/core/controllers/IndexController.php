@@ -2,19 +2,26 @@
 
 namespace Phlame\Core\Controllers;
 
-use \Phlame\Core\Components\Bootstrap\Navbar;
-use \Phlame\Core\Components\Html\Tag;
-use \Phlame\Core\Components\Html\NavbarTag;
+use Phalcon\Mvc\View;
+use Phlame\Core\Components\Bootstrap\Navbar;
+use Phlame\Core\Components\Html\Tag;
+use Phlame\Core\Components\Html\NavbarTag;
+use Phlame\Core\Components\Html\Doc;
 
 class IndexController extends ControllerBase
 {
     
     public function testAction() {
+		$this->view->disable();
 		$this->dumpInfo();
 	}
 
 	public function indexAction() {
 		
+		$this->di->setShared('htmlDoc', function() {
+			return new Doc();
+		});
+
 		$this->htmlDoc->setTitle('Phlame Framework');
 		$this->htmlDoc->getHtml()->setAttribute('lang', 'en');
 		$this->htmlDoc->addMeta(array(
@@ -49,6 +56,7 @@ class IndexController extends ControllerBase
 			'tagName' => 'div',
 			'attributes' => array(
 				'class' => 'my-class',
+				'style' => 'margin-top: 60px',
 				'id' => 'my-id'
 			),
 			'children' => array(
@@ -73,7 +81,11 @@ class IndexController extends ControllerBase
 			$this->htmlDoc->getBody()->appendChild('<p>Testing 1 2 3</p>');
 		}
 		
+		//$this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+		$this->view->disable();
 		$this->response->setContent($this->htmlDoc);
+		return $this->response;
+		//echo $this->htmlDoc;
 	}
 
 	private function dumpInfo() {

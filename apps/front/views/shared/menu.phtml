@@ -1,0 +1,25 @@
+
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content blue darken-1">
+  <li><a class="white-text" href="#!">one</a></li>
+  <li><a class="white-text" href="#!">two</a></li>
+  <li class="divider"></li>
+  <li><a class="white-text" href="#!">three</a></li>
+</ul>
+
+<div class="navbar-fixed">
+  <nav class="blue">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo"><?php echo $htmldoc['title']; ?></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="side-nav" id="mobile-demo">
+        <?php echo $htmldoc['menu-items']; ?>
+      </ul>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <!-- Dropdown Trigger -->
+        <li><a class="dropdown-button" href="#!" data-hover="true" data-beloworigin="true" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+        <?php echo $htmldoc['menu-items']; ?>
+      </ul>
+    </div>
+  </nav>
+</div>

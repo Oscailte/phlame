@@ -5,8 +5,9 @@ namespace Phlame\Frontend\Controllers;
 use Phalcon\Events\Manager as EventsManager;
 use Phlame\Core\Components\Store\Store;
 use Phlame\Core\Components\Store\StoreListener;
+use Phlame\Core\Components\Html\Tag;
 
-class IndexController extends ControllerBase
+class IndexController extends ControllerHtml
 {
 
     public function indexAction()
@@ -22,11 +23,18 @@ class IndexController extends ControllerBase
 		$this->eventsManager->attach('store', new StoreListener());
 
 		// Execute methods in the component
-		$store->someTask();
+		//$store->someTask();
 
-		
-		echo '<br/>index - polymer test<br/>';
+		//$this->view->enable();
+		//echo '<br/>index - polymer test<br/>';
+		$this->htmlDoc->setTitle('Phlame01 Test');
+		$this->htmlDoc->getBody()->appendChild('Here is my test');
 		//$this->dumpInfo();
+
+		//$this->view->disable();
+		$this->response->setContent($this->htmlDoc);
+		return $this->response;
+		
     }
     
     public function aAction()

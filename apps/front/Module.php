@@ -1,13 +1,12 @@
 <?php
 
-namespace Phlame\Core;
+namespace Phlame\Front;
 
 use Phalcon\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
-use Phalcon\Db\Adapter\Pdo\Sqlite as DbAdapter;
+use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Mvc\ModuleDefinitionInterface;
-//use Phlame\Core\Components\Html\Doc;
 
 
 class Module implements ModuleDefinitionInterface
@@ -23,9 +22,9 @@ class Module implements ModuleDefinitionInterface
         $loader = new Loader();
 
         $loader->registerNamespaces(array(
-            'Phlame\Core\Controllers' => __DIR__ . '/controllers/',
-            'Phlame\Core\Models' => __DIR__ . '/models/',
-            'Phlame\Core\Components' => __DIR__ . '/components/',
+            'Phlame\Front\Controllers' => __DIR__ . '/controllers/',
+            'Phlame\Front\Models' => __DIR__ . '/models/',
+            'Phlame\Core\Components' => __DIR__ . '/../core/components/',
         ));
 
         $loader->register();
@@ -41,7 +40,7 @@ class Module implements ModuleDefinitionInterface
         /**
          * Read configuration
          */
-        $config = include APP_PATH . "/apps/core/config/config.php";
+        $config = include APP_PATH . "/apps/front/config/config.php";
 
         /**
          * Setting up the view component
@@ -57,13 +56,7 @@ class Module implements ModuleDefinitionInterface
          * Database connection is created based in the parameters defined in the configuration file
          */
         $di['db'] = function () use ($config) {
-            return new DbAdapter($config->database->toArray());
+            return new DbAdapter($config->toArray());
         };
-        
-//        $di->setShared('htmlDoc', function() {
-//			return new Doc();
-//		});
-
     }
-
 }

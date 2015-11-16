@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<?php echo $htmldoc['meta-src']; ?>
+
+<title><?php echo $htmldoc['title']; ?></title>
+
+<?php echo $htmldoc['css-src']; ?>
+<?php echo $htmldoc['css-inline-src']; ?>
+<?php echo $htmldoc['js-src']; ?>
+<?php echo $htmldoc['import-src']; ?>
+
+</head>
+<body>
+
+<?php echo $menu; ?>
+
+<div class="container">
+
+	<div class="card-panel hoverable">
+		<span class="blue-text text-darken-2">This is a card panel with dark blue text</span>
+	</div>
+
+
+  <ul class="collapsible popout" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+      <div class="collapsible-body"><p class="flow-text">Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header active"><i class="material-icons">place</i>Second</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+
+</div>
+
+<?php echo $this->getContent(); ?>
+
+        <hr/>
+        
+        <link rel="import" href="/phlame/files/polymer/bower_components/polymer/polymer.html">
+ 
+<dom-module id="element-name">
+
+  <template is="dom-bind">
+    <style>
+      /* CSS rules for your element */
+    </style>
+  
+    <!-- local DOM for your element -->
+
+    <div>{{greeting}}</div> <!-- data bindings in local DOM -->
+    <!--
+    <iron-ajax url="http://www.reddit.com//r/aww/about.json" auto last-response="{{resp}}"></iron-ajax>
+    -->
+    <iron-ajax url="/phlame/frontend/rest/index" auto last-response="{{resp}}"></iron-ajax>
+
+    <p>{{resp.data.public_description}}</p>
+  </template>
+
+  <script>
+	  HTMLImports.whenReady(function () {
+    // element registration
+    Polymer({
+      is: "element-name",
+
+      // add properties and methods on the element's prototype
+
+      properties: {
+        // declare properties for the element's public API
+        greeting: {
+          type: String,
+          value: "Hello!"
+        }
+      }
+    });
+    });
+  </script>
+
+</dom-module>
+        
+        <element-name></element-name>
+        
+        <hr />
+        
+    <!-- 3. Declare the element. Configure using its attributes. -->
+    <paper-input label="Your name here"></paper-input>
+    <paper-button>Say Hello</paper-button>
+    <div id="greeting"></div>
+
+<?php echo $htmldoc['jsfooter-src']; ?>
+<?php echo $htmldoc['js-inline-src']; ?>
+
+</body>
+
+</html>
