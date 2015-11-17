@@ -4,16 +4,26 @@ namespace Phlame\Front\Controllers;
 
 use Phalcon\Registry;
 use \Phalcon\Text;
+use Phlame\Core\Components\Html\Tag;
+use Phlame\Core\Components\Html\Doc;
+use Phlame\Core\Components\Html\DocTag;
 
 class ControllerHtml extends ControllerBase
 {
 
-	public $htmldoc = array();
+	//public $htmldoc = array();
 
 	// Set up the htmldoc
 	public function initialize()
 	{
 
+		$this->di->setShared('htmlDoc', function() {
+			return new Doc();
+		});
+		$this->view->disable();
+		
+		return;
+		
 		// Set up the view variables
 		$this->htmldoc['title'] = 'Phlame Framework';
 		$this->htmldoc['meta'] = new Registry();
@@ -94,6 +104,31 @@ class ControllerHtml extends ControllerBase
 	// Executed after every found action
 	public function afterExecuteRoute($dispatcher)
 	{
+
+		//$this->response->setContent($this->htmlDoc);
+		//$this->htmlDoc->getBody()->setContent($this->response->getContent());
+		
+		//$this->response->setContent($this->htmlDoc);
+		//return $this->response->send();
+
+		$doctag = new DocTag();
+		//var_dump ($doctag->getChild('html')->setAttribute('lang', 'gb'));
+		echo '<pre><code>'.htmlentities($doctag).'</code></pre>';
+		
+		$test = Tag::factory(array(
+			'tagname' => 'doc',
+			'children' => array(
+				'doctype' => array(
+					'tagname' => 'doctype'
+				)
+			)
+		));
+		echo '<pre><code>';
+		var_dump ($test);
+		echo '</code></pre>';
+		
+		
+		return;
 
 		// Set up the assets manager to not output directly
 		$this->assets->useImplicitOutput(false);

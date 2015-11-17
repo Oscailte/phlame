@@ -17,6 +17,17 @@ class Tag extends Component {
 	protected $_attributes = array();
 	protected $_children;
 
+	public static function factory(array $properties = null) {
+		$classname = __CLASS__;
+		if (!empty($properties['tagname'])) {
+			$cname = __NAMESPACE__.'\\'.Text::camelize($properties['tagname']).'Tag';
+			if (class_exists($cname)) {
+				$classname = $cname;
+			}
+		}
+		return new $classname($properties);
+	}
+
 	public function __construct(array $properties = null) {
 		$this->resetChildren();
 		$this->setProperties($this->getDefault());
@@ -91,7 +102,8 @@ class Tag extends Component {
 	public function appendChild($child, $name = null) {
 		if (!is_string($name)) $name = strval(count($this->getChildren()));
 		if (is_array($child)) {
-			$this->_children[$name] = new Tag($child);
+			//$this->_children[$name] = new Tag($child);
+			$this->_children[$name] = Tag::factory($child);
 		} else {
 			$this->_children[$name] = $child;
 		}

@@ -20,6 +20,7 @@ class Module implements ModuleDefinitionInterface
     public function registerAutoloaders(DiInterface $di = null)
     {
 
+$eventsManager = new \Phalcon\Events\Manager();
         $loader = new Loader();
 
         $loader->registerNamespaces(array(
@@ -27,6 +28,15 @@ class Module implements ModuleDefinitionInterface
             'Phlame\Core\Models' => __DIR__ . '/models/',
             'Phlame\Core\Components' => __DIR__ . '/components/',
         ));
+
+// Listen all the loader events
+$eventsManager->attach('loader', function ($event, $loader) {
+    if ($event->getType() == 'beforeCheckPath') {
+        echo 'beforeCheckPath:'.$loader->getCheckedPath().'<br/>';
+    }
+});
+
+$loader->setEventsManager($eventsManager);
 
         $loader->register();
     }
