@@ -11,9 +11,7 @@ class Tag extends Component {
 	protected $_tagName = null;
 	protected $_tagDisplay = true;
 	protected $_tagSelfClose = false;
-
 	protected $_eol = true;
-
 	protected $_attributes = array();
 	protected $_children;
 
