@@ -4,8 +4,9 @@ namespace Phlame\Front\Controllers;
 
 use Phalcon\Registry;
 use Phalcon\Text;
-use Phlame\Core\Components\HtmlTag\HtmlTag;
+//use Phlame\Core\Components\HtmlTag\HtmlTag;
 use Phlame\Core\Components\HtmlTag\Doc;
+use Phlame\Core\Components\HtmlModel\HtmlModel;
 
 class ControllerHtml extends ControllerBase
 {
@@ -112,9 +113,15 @@ class ControllerHtml extends ControllerBase
 		//$this->response->setContent($this->htmlDoc);
 		//return $this->response->send();
 
-		$doc = new Doc();
+		//$item = new Doc();
+		$item = new HtmlModel(array(
+			'tag' => new Doc()
+		));
+		
 		//var_dump ($doctag->getChild('html')->setAttribute('lang', 'gb'));
-		echo '<pre><code>'.htmlentities($doc).'</code></pre>';
+		echo '<pre><code>'.htmlentities($item).'</code></pre>';
+		
+		return;
 		
 		$test = HtmlTag::factory(array(
 			'tagname' => 'doc',

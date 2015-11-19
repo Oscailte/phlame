@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * The HtmlTag components represent HTML tags only
+ * 
+ * They should not be concerned with the meaning or structure
+ * of the combination of the tags
+ * 
+*/
+
 namespace Phlame\Core\Components\HtmlTag;
 
 use \Phalcon\Mvc\User\Component;
