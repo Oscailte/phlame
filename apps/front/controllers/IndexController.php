@@ -5,7 +5,7 @@ namespace Phlame\Front\Controllers;
 use Phalcon\Events\Manager as EventsManager;
 use Phlame\Core\Components\Store\Store;
 use Phlame\Core\Components\Store\StoreListener;
-use Phlame\Core\Components\Html\Tag;
+use Phlame\Core\Components\HtmlTag\Tag;
 
 class IndexController extends ControllerHtml
 {

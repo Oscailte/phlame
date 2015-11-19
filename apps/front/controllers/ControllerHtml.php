@@ -3,10 +3,9 @@
 namespace Phlame\Front\Controllers;
 
 use Phalcon\Registry;
-use \Phalcon\Text;
-use Phlame\Core\Components\Html\Tag;
-use Phlame\Core\Components\Html\Doc;
-use Phlame\Core\Components\Html\DocTag;
+use Phalcon\Text;
+use Phlame\Core\Components\HtmlTag\HtmlTag;
+use Phlame\Core\Components\HtmlTag\Doc;
 
 class ControllerHtml extends ControllerBase
 {
@@ -16,6 +15,8 @@ class ControllerHtml extends ControllerBase
 	// Set up the htmldoc
 	public function initialize()
 	{
+		$this->view->disable();
+		return;
 
 		$this->di->setShared('htmlDoc', function() {
 			return new Doc();
@@ -111,11 +112,11 @@ class ControllerHtml extends ControllerBase
 		//$this->response->setContent($this->htmlDoc);
 		//return $this->response->send();
 
-		$doctag = new DocTag();
+		$doc = new Doc();
 		//var_dump ($doctag->getChild('html')->setAttribute('lang', 'gb'));
-		echo '<pre><code>'.htmlentities($doctag).'</code></pre>';
+		echo '<pre><code>'.htmlentities($doc).'</code></pre>';
 		
-		$test = Tag::factory(array(
+		$test = HtmlTag::factory(array(
 			'tagname' => 'doc',
 			'children' => array(
 				'doctype' => array(

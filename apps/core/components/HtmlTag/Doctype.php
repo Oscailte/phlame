@@ -1,8 +1,8 @@
 <?php
 
-namespace Phlame\Core\Components\Html;
+namespace Phlame\Core\Components\HtmlTag;
 
-class DoctypeTag extends Tag {
+class Doctype extends HtmlTag {
 
 	protected $_tagName = 'doctype';
 	protected $_tagDisplay = false;

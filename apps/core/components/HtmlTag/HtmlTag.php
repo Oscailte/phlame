@@ -1,12 +1,12 @@
 <?php
 
-namespace Phlame\Core\Components\Html;
+namespace Phlame\Core\Components\HtmlTag;
 
 use \Phalcon\Mvc\User\Component;
 use \Phalcon\Text;
 use \Phalcon\Registry;
 
-class Tag extends Component {
+class HtmlTag extends Component {
 
 	protected $_tagName = null;
 	protected $_tagDisplay = true;
@@ -18,7 +18,7 @@ class Tag extends Component {
 	public static function factory(array $properties = null) {
 		$classname = __CLASS__;
 		if (!empty($properties['tagname'])) {
-			$cname = __NAMESPACE__.'\\'.Text::camelize($properties['tagname']).'Tag';
+			$cname = __NAMESPACE__.'\\'.Text::camelize($properties['tagname']);
 			if (class_exists($cname)) {
 				$classname = $cname;
 			}
@@ -101,7 +101,7 @@ class Tag extends Component {
 		if (!is_string($name)) $name = strval(count($this->getChildren()));
 		if (is_array($child)) {
 			//$this->_children[$name] = new Tag($child);
-			$this->_children[$name] = Tag::factory($child);
+			$this->_children[$name] = HtmlTag::factory($child);
 		} else {
 			$this->_children[$name] = $child;
 		}
