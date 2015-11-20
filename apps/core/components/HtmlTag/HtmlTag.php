@@ -21,9 +21,10 @@ class HtmlTag extends Component {
 	protected $_tagSelfClose = false;
 	protected $_eol = true;
 	protected $_attributes = array();
-	protected $_children;
+	protected $_children = array();
+	protected $_parent = null;
 
-	public static function factory(array $properties = null) {
+	public static function factory(array $properties = null, HtmlTag $parent = null) {
 		$classname = __CLASS__;
 		if (!empty($properties['tagname'])) {
 			$cname = __NAMESPACE__.'\\'.Text::camelize($properties['tagname']);
@@ -31,11 +32,10 @@ class HtmlTag extends Component {
 				$classname = $cname;
 			}
 		}
-		return new $classname($properties);
+		return new $classname($properties, $parent);
 	}
 
-	public function __construct(array $properties = null) {
-		$this->resetChildren();
+	public function __construct(array $properties = null, HtmlTag $parent = null) {
 		$this->setProperties($this->getDefault());
 		//if ($tagName) {
 		//	$this->_tagName = $tagName;
@@ -45,6 +45,8 @@ class HtmlTag extends Component {
 		//}
 		if ($properties)
 			$this->setProperties($properties);
+		if ($parent)
+			$this->setParent($parent);
 	}
 
 	public function getDefault() {
@@ -67,6 +69,24 @@ class HtmlTag extends Component {
 		$method_name = 'set'.Text::camelize($property);
 		$this->{$method_name}($value);
 		return $this;
+	}
+
+	public function getRoot() {
+		$parent = $this->getParent();
+		if (!$parent) {
+			return $this;
+		} else {
+			return $parent->getParent();
+		}
+	}
+
+	public function setParent($parent) {
+		$this->_parent = $parent;
+		return $this;
+	}
+
+	public function getParent() {
+		return $this->_parent;
 	}
 
 	public function setTagName($tagName) {
@@ -105,24 +125,27 @@ class HtmlTag extends Component {
 	//	if ($this->_eol) return "\n";
 	//}
 
+	public function prependChild($child, $name = null) {
+		if (is_array($child)) {
+			array_unshift($this->_children, HtmlTag::factory($child, $name));
+		} else {
+			array_unshift($this->_children, $child);
+		}
+		return $this;
+	}
+
 	public function appendChild($child, $name = null) {
-		if (!is_string($name)) $name = strval(count($this->getChildren()));
+		//if (!is_string($name)) $name = strval(count($this->getChildren()));
 		if (is_array($child)) {
 			//$this->_children[$name] = new Tag($child);
-			$this->_children[$name] = HtmlTag::factory($child);
+			$this->_children[$name] = HtmlTag::factory($child, $this);
 		} else {
 			$this->_children[$name] = $child;
 		}
 		return $this;
 	}
 
-	public function resetChildren() {
-		$this->_children = new Registry();
-		return $this;
-	}
-
 	public function setChildren($children) {
-		$this->resetChildren();
 		return $this->appendChildren($children);
 	}
 

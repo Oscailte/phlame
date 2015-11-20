@@ -23,7 +23,7 @@ use \Phalcon\Registry;
 
 class HtmlModel extends Component {
 
-	protected $_tag = null;
+	public $_tag;
 
 	public static function factory(array $properties = null) {
 		$classname = __CLASS__;
@@ -60,6 +60,7 @@ class HtmlModel extends Component {
 	}
 
 	public function setTag($tag) {
+		//echo 'SET TAG:'.$tag.'<br/>';
 		$this->_tag = $tag;
 		return $this;
 	}
@@ -69,6 +70,7 @@ class HtmlModel extends Component {
 	}
 
 	public function getContent() {
+		//echo 'TAG:'.$this->_tag.'<br/>';
 		if (!empty($this->_tag)) {
 			return $this->_tag->getContent();
 		}

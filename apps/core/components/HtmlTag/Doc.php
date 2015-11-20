@@ -24,10 +24,21 @@ class Doc extends HtmlTag {
 					),
 					'children' => array(
 						'head' => array(
-							'tagname' => 'head'
+							'tagname' => 'head',
+							'children' => array(
+								'meta' => array(),
+								'title' => array(
+									'tagname' => 'title'
+								),
+								'headitems' => array(),
+							),
 						),
 						'body' => array(
-							'tagname' => 'body'
+							'tagname' => 'body',
+							'children' => array(
+								'content' => array(),
+								'footeritems' => array()
+							)
 						)
 					)
 				)

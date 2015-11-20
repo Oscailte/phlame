@@ -107,6 +107,8 @@ class ControllerHtml extends ControllerBase
 	public function afterExecuteRoute($dispatcher)
 	{
 
+		return;
+		
 		//$this->response->setContent($this->htmlDoc);
 		//$this->htmlDoc->getBody()->setContent($this->response->getContent());
 		
