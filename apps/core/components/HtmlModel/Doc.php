@@ -19,7 +19,7 @@ class Doc extends HtmlModel {
 	protected $_css;
 
 	public function __construct(array $properties = null) {
-		$this->assets->useImplicitOutput(false);
+		//$this->assets->useImplicitOutput(false);
 		$this->_css = new Sequence();
 		parent::__construct();
 	}
@@ -49,7 +49,7 @@ class Doc extends HtmlModel {
 		$this->getTag()
 			->getChild('html')
 			->getChild('head')
-			->getChild('meta')
+			->getChild('metaitems')
 			->appendChild(array(
 				'tagname' => 'meta',
 				'attributes' => $meta
@@ -57,13 +57,13 @@ class Doc extends HtmlModel {
 		return $this;
 	}
 	
-	public function registerCss($name, $src, $use = false, array $require = array()) {
+	public function registerCss($name, $src, $enable = false, array $require = array()) {
 		//echo 'adding '.$name.'<br/>';
 		$this->_css[$name] = array(
 		//$this->_css->items[$name] = array(
 			'name' => $name,
 			'src' => $src,
-			'use' => $use,
+			'enable' => $enable,
 			'require' => $require
 		);
 		//$this->_css->sort();
@@ -75,19 +75,53 @@ class Doc extends HtmlModel {
 		return $this;
 	}
 	
-	public function getCss($name = null) {
-		if ($name) {
-			return $this->_css->$name;
-		} else {
-			$result = array();
-			//$this->_css->sort();
-			//$this->_css->sort();
-			foreach ($this->_css as $css) {
-				$result[] = $css['name'];
+	public function compileCss() {
+		$this->di->assets = new \Phalcon\Assets\Manager();
+		$this->assets->useImplicitOutput(false);		
+		// Compile everything into the assets manager
+		foreach ($this->_css as $css) {
+			//echo 'compiling '.$css['name'].'<br/>';
+			if ($css['enable']) {
+				//echo '- enabled<br/>';
+				//echo '- src '.$css['src'].'<br/>';
+				if (Text::startsWith($css['src'], 'http')) {
+					//echo '- enabled http css<br/>';
+					$this->assets->addCss($css['src'], false);
+				} elseif (Text::startsWith($css['src'], 'files/')) {
+					//echo '- enabled files css<br/>';
+					$this->assets->addCss($css['src']);
+				} else {
+					$this->assets->addInlineCss($css['src']);
+				}
 			}
-			return $result;
 		}
+		//echo 'css compiled<br/>';
+		//var_dump ($this->asssets);
+		return $this;
 	}
+	
+	public function outputCss() {
+		$this->compileCss();
+		return $this->assets->outputCss();
+	}
+	
+	public function outputInlineCss() {
+		$this->compileCss();
+		return $this->assets->outputInlineCss();
+	}
+	
+		//if ($name) {
+		//	return $this->_css->$name;
+		//} else {
+		//	$result = array();
+			//$this->_css->sort();
+			//$this->_css->sort();
+		//	foreach ($this->_css as $css) {
+		//		$result[] = $css;
+		//	}
+		//	return $result;
+		//}
+	//}
 	
 	public function useCss($name) {
 		

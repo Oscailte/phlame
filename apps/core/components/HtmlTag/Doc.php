@@ -26,11 +26,13 @@ class Doc extends HtmlTag {
 						'head' => array(
 							'tagname' => 'head',
 							'children' => array(
-								'meta' => array(),
+								'metaitems' => array(),
 								'title' => array(
 									'tagname' => 'title'
 								),
-								'headitems' => array(),
+								'headitems' => array(
+									'tagname' => 'headitems'
+								),
 							),
 						),
 						'body' => array(

@@ -28,10 +28,10 @@ class IndexController extends ControllerHtml
 		$item->setMeta('x_ua_compatible', array('http-equiv' => 'X-UA-Compatible', 'content' => 'IE=edge'));
 		$item->setMeta('viewport', array('name' => 'viewport', 'content' => 'width=device-width, initial-scale=1'));
 		
-		$item->registerCss('test', 'href-test', true, array('bootstrap'));
-		$item->registerCss('test2', 'href-test2', true, array('bootstrap', 'test'));
-		$item->registerCss('bootstrap', 'href-bootstrap', false, array('base'));
-		$item->registerCss('base', 'href-base');
+		$item->registerCss('googlemap', 'google-map { height: 500px; width: 500px; }', true);
+		$item->registerCss('materialize', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css', true, array('googleiconfont'));
+		$item->registerCss('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+		$item->registerCss('googleiconfont', 'http://fonts.googleapis.com/icon?family=Material+Icons');
 		
 		//$item->useCss('test');
 		echo '<hr/>';
@@ -59,15 +59,18 @@ class IndexController extends ControllerHtml
 		//$item->addBefore('one', 'one', array('two'));
 		//var_dump($item->sequence);
 		
-		echo '<pre>';
+		echo '<pre><code>';
 		
-		var_dump ($item->getCss());
-		echo '</pre>';
+		//echo htmlentities($item->outputCss());
+		//echo htmlentities($item->outputInlineCss());
 		
+		echo '</code></pre>';
+			
 		//var_dump($item->getTag()->getChild('html')->getChild('head')->getRoot()->getTagName());
 		//$item->getTag()->getChild('html')->getChild('head')->prependChild(array('tagname'=>'test'));
 		
 		//var_dump ($doctag->getChild('html')->setAttribute('lang', 'gb'));
+		$item->compileCss();
 		echo '<pre><code>'.htmlentities($item).'</code></pre>';
 		
 		//////////
