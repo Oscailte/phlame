@@ -17,10 +17,12 @@ class Doc extends HtmlModel {
 	//use Sequence;
 
 	protected $_css;
+	protected $_js;
 
 	public function __construct(array $properties = null) {
 		//$this->assets->useImplicitOutput(false);
 		$this->_css = new Sequence();
+		$this->_js = new Sequence();
 		parent::__construct();
 	}
 
@@ -56,100 +58,101 @@ class Doc extends HtmlModel {
 			), $name);
 		return $this;
 	}
-	
+
+	public function setImport($name, $import) {
+		$attributes = array(
+			'rel' => 'import',
+			'href' => $this->url->get($import)
+		);
+		$this->getTag()
+			->getChild('html')
+			->getChild('head')
+			->getChild('importitems')
+			->appendChild(array(
+				'tagname' => 'link',
+				'tagSelfClose' => true,
+				'attributes' => $attributes
+			), $name);
+		return $this;
+	}
+		
 	public function registerCss($name, $src, $enable = false, array $require = array()) {
-		//echo 'adding '.$name.'<br/>';
 		$this->_css[$name] = array(
-		//$this->_css->items[$name] = array(
 			'name' => $name,
 			'src' => $src,
 			'enable' => $enable,
 			'require' => $require
 		);
-		//$this->_css->sort();
-		//if ($use || in_array($name, $this->_cssrequired)) {
-		//	$this->useCss($name);
-		//}
-		//$this->_cssrequired += $require;
-		//var_dump ($this->_cssrequired);
+		return $this;
+	}
+
+	public function registerJs($name, $src, $enable = false, array $require = array(), $footer = false) {
+		$this->_js[$name] = array(
+			'name' => $name,
+			'src' => $src,
+			'footer' => $footer,
+			'enable' => $enable,
+			'require' => $require
+		);
+		return $this;
+	}
+
+	public function enableCss($name) {
+		$this->_css->enable($name);
+		return $this;
+	}
+
+	public function enableJs($name) {
+		$this->_js->enable($name);
 		return $this;
 	}
 	
-	public function compileCss() {
-		$this->di->assets = new \Phalcon\Assets\Manager();
-		$this->assets->useImplicitOutput(false);		
-		// Compile everything into the assets manager
-		foreach ($this->_css as $css) {
-			//echo 'compiling '.$css['name'].'<br/>';
-			if ($css['enable']) {
-				//echo '- enabled<br/>';
-				//echo '- src '.$css['src'].'<br/>';
-				if (Text::startsWith($css['src'], 'http')) {
-					//echo '- enabled http css<br/>';
-					$this->assets->addCss($css['src'], false);
-				} elseif (Text::startsWith($css['src'], 'files/')) {
-					//echo '- enabled files css<br/>';
-					$this->assets->addCss($css['src']);
-				} else {
-					$this->assets->addInlineCss($css['src']);
-				}
-			}
-		}
-		//echo 'css compiled<br/>';
-		//var_dump ($this->asssets);
-		return $this;
-	}
-	
-	public function outputCss() {
-		$this->compileCss();
-		return $this->assets->outputCss();
-	}
-	
-	public function outputInlineCss() {
-		$this->compileCss();
-		return $this->assets->outputInlineCss();
-	}
-	
-		//if ($name) {
-		//	return $this->_css->$name;
-		//} else {
-		//	$result = array();
-			//$this->_css->sort();
-			//$this->_css->sort();
-		//	foreach ($this->_css as $css) {
-		//		$result[] = $css;
-		//	}
-		//	return $result;
-		//}
-	//}
-	
-	public function useCss($name) {
+	public function compileAssets() {
+		//$this->di->assets = new \Phalcon\Assets\Manager();
 		
-		if (array_key_exists($name, $this->_css)) {
-			$css = $this->_css[$name];
-			if (!$css['use']) {
-				$css['use'] = true;
-				$this->_css[$name] = $css;
-			}
-			foreach ($css['require'] as $r) {
-				if (!in_array($r, $this->_cssrequired)) {
-					array_unshift($this->_cssrequired, $r);
+		// Tell the assets manager not to output
+		$this->assets->useImplicitOutput(false);
+		
+		// Create the footer js collection		
+		$this->assets->collection('jsfooter');
+		
+		// Compile CSS into the assets manager
+		foreach ($this->_css as $css) {
+			if ($css['enable']) {
+				$type = $this->assetType($css['src']);
+				if ($type == 'inline') {
+					$this->assets->addInlineCss($css['src']);
+				} else {
+					$this->assets->addCss($css['src'], ($type == 'local'));
 				}
-				$this->useCss($r);
 			}
 		}
+
+		// Compile JS into the assets manager
+		foreach ($this->_js as $js) {
+			if ($js['enable']) {
+				$type = $this->assetType($js['src']);
+				if ($type == 'inline') {
+					$this->assets->addInlineJs($js['src']);
+				} elseif ($js['footer']) {
+					$this->assets->collection('jsfooter')->addJs($js['src'], ($type == 'local'));
+				} else {
+					$this->assets->addJs($js['src'], ($type == 'local'));
+				}
+			}
+		}
+
 		return $this;
+	}
+	
+	public function assetType($src) {
+		if (Text::startsWith($src, 'http')) return 'remote';
+		if (Text::startsWith($src, 'files/')) return 'local';
+		return 'inline';
 	}
 	
 	public function getContent() {
-		//foreach ($this->_css as $name => $css) {
-		//	if (!empty($css['use'])) {
-		//		if (!empty($css['require'])) {
-		//			foreach ($css['require'] as $require) {
-		//			}
-		//		}
-		//	}
-		//}
+		$this->compileAssets();
 		return parent::getContent();
 	}
 

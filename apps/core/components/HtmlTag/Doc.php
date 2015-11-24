@@ -33,13 +33,16 @@ class Doc extends HtmlTag {
 								'headitems' => array(
 									'tagname' => 'headitems'
 								),
+								'importitems' => array(),
 							),
 						),
 						'body' => array(
 							'tagname' => 'body',
 							'children' => array(
 								'content' => array(),
-								'footeritems' => array()
+								'footeritems' => array(
+									'tagname' => 'footeritems'
+								)
 							)
 						)
 					)
